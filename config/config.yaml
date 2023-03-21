@@ -1,0 +1,4 @@
+index: /mnt/c/Users/alexa/Documents/SWP_day2/resources/index
+samples: /mnt/c/Users/alexa/Documents/SWP_day2/resources/sample.tsv
+n_max_mismatches: 0
+len_seed_substr: 22
