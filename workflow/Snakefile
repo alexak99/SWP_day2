@@ -1,12 +1,10 @@
 import pandas as pd
-
 configfile: "config/config.yaml"
-
-samples = pd.read_table(config["samples"], index_col="sample")
-
-include: "rules/bowtie.smk"
-include: "rules/samtools.smk"
+samples = pd.read_table(config["samples"], index_col = "sample")
 
 rule all:
     input:
-        stats=expand("results/stats/{sample}_aug.txt", sample=list(samples.index))
+        expand("results/stats/{sample}_aug.txt", sample = list(samples.index))
+
+include: "rules/bowtie.smk"
+include: "rules/samtools.smk"

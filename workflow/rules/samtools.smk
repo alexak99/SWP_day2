@@ -1,5 +1,3 @@
-env = "workflow/envs/samtools.yaml"
-
 rule convert_to_bam:
     input:
         sam_file="results/sam/tiny/{sample}.sam"
@@ -7,7 +5,7 @@ rule convert_to_bam:
         bam_file="results/bam/{sample}.bam"
     threads: 4
     conda:
-        env
+        "../envs/samtools.yaml"
     shell:
         "samtools view -@ {threads} -S -b {input.sam_file} > {output.bam_file}"
 
@@ -18,9 +16,9 @@ rule sort_bam:
         sorted_bam_file="results/bam_sorted/{sample}.sorted.bam"
     threads: 4
     conda:
-        env
+        "../envs/samtools.yaml"
     shell:
-        "samtools sort -@ {threads} -o {output.sorted_bam_file} {input.bam_file}"
+        "samtools sort {input.bam_file} -@ {threads} -o {output.sorted_bam_file} "
 
 rule index_bam:
     input:
@@ -29,9 +27,9 @@ rule index_bam:
         index_file="results/bam_sorted/{sample}.sorted.bam.bai"
     threads: 4
     conda:
-        env
+        "../envs/samtools.yaml"
     shell:
-        "samtools index -@ {threads} {input.sorted_bam_file} {output.index_file}"
+        "samtools index {input.sorted_bam_file} {output.index_file} -@ {threads}"
 
 rule mapping_stats:
     input:
@@ -41,6 +39,6 @@ rule mapping_stats:
         stats_file="results/stats/{sample}_aug.txt"
     threads: 4
     conda:
-        env
+        "../envs/samtools.yaml"
     shell:
-        "samtools idxstats -@ {threads} {input.sorted_bam_file} > {output.stats_file}"
+        "samtools idxstats {input.sorted_bam_file} > {output.stats_file} -@ {threads}"
