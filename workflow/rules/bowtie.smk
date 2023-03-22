@@ -1,17 +1,3 @@
-rule index_rf:
-    input:
-        "resources/reference.fa"
-    output:
-        ["resources/index/rf.1.bt2", "resources/index/rf.2.bt2",
-        "resources/index/rf.3.bt2", "resources/index/rf.4.bt2",
-        "resources/index/rf.rev.1.bt2", "resources/index/rf.rev.2.bt2"]
-    params:
-        index = config["index"]
-    conda:
-        "../envs/bowtie.yaml"
-    shell:
-        "bowtie2-build --threads {threads} {input} {params.index}"
-
 rule paired_end:
     input:
         r1 = lambda wildcards: samples.at[wildcards.sample,'fq1'] if 

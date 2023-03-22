@@ -1,6 +1,6 @@
 rule convert_to_bam:
     input:
-        sam_file="results/sam/tiny/{sample}.sam"
+        sam_file="results/sam/{sample}.sam"
     output:
         bam_file="results/bam/{sample}.bam"
     threads: 4
