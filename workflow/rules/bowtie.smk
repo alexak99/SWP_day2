@@ -11,8 +11,10 @@ rule paired_end:
         index = config["index"],
         n_max_mismatches = config["n_max_mismatches"],
         len_seed_substr = config["len_seed_substr"]
+    log:
+        "results/logs/paired_end/{sample}.log"
     threads: 4
     conda:
         "../envs/bowtie.yaml"
     shell:
-        "bowtie2 -N {params.n_max_mismatches} -L {params.len_seed_substr} --threads {threads} -x {params.index} -1 {input.r1} -2 {input.r2} -S {output}"
+        "bowtie2 -N {params.n_max_mismatches} -L {params.len_seed_substr} --threads {threads} -x {params.index} -1 {input.r1} -2 {input.r2} -S {output} 2> {log}"
